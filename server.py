@@ -63,6 +63,11 @@ def purchasePlaces():
         flash("Le nombre de places doit être positif.")
         return render_template('welcome.html', club=club, competitions=competitions)
 
+    # Limite maximale : pas plus de 12 places par club (par réservation)
+    if placesRequired > 12:
+        flash("Vous ne pouvez pas réserver plus de 12 places par club.")
+        return render_template('welcome.html', club=club, competitions=competitions)
+
     # Vérifier que le club a assez de points
     try:
         club_points = int(club.get('points', 0))
