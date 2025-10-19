@@ -4,53 +4,158 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Summary | GUDLFT Registration</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        h2 {
-            text-align: center;
-            margin-top: 50px;
-            color: #333;
-        }
-        a {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 10px 20px;
-            background-color: #333;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        li {
-            margin-bottom: 20px;
-        }
-        hr {
-            border: none;
-            height: 1px;
-            background-color: #333;
-            margin: 20px 0;
-        }
-        @media only screen and (max-width: 600px) {
-            body {
-                font-size: 14px;
-            }
-            h2 {
-                margin-top: 30px;
-            }
-            a {
-                padding: 8px 16px;
-            }
-            li {
-                margin-bottom: 15px;
-            }
-        }
+        /* === Style global === */
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #eef2ff, #f9fafb);
+    margin: 0;
+    padding: 0;
+    color: #2c3e50;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* === Header et zone de bienvenue === */
+header {
+    width: 100%;
+    background: linear-gradient(90deg, #457b9d, #1d3557);
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin: 0;
+}
+
+header a {
+    color: #f1faee;
+    text-decoration: none;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-left: 15px;
+    transition: all 0.3s ease;
+}
+
+header a:hover {
+    background: #f1faee;
+    color: #1d3557;
+}
+
+/* === Messages flash === */
+ul {
+    list-style: none;
+    padding: 0;
+    max-width: 600px;
+    margin: 30px auto;
+}
+
+li {
+    background: #ffffff;
+    border-left: 6px solid #457b9d;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+li:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* === Section des points === */
+.points {
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #264653;
+    margin: 10px 0 30px;
+    background: #ffffff;
+    padding: 12px 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* === Liste des compétitions === */
+h3 {
+    text-align: center;
+    color: #1d3557;
+    font-size: 1.6rem;
+    margin-top: 20px;
+}
+
+ul li {
+    line-height: 1.7;
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background-color: #e0e6f0;
+    margin: 10px auto;
+    width: 80%;
+}
+
+/* === Bouton "Book Places" === */
+a[href*="book"] {
+    display: inline-block;
+    background-color: #457b9d;
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 10px;
+    margin-top: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(69, 123, 157, 0.4);
+    transition: all 0.3s ease;
+}
+
+a[href*="book"]:hover {
+    background-color: #1d3557;
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 4px 12px rgba(29, 53, 87, 0.5);
+}
+
+/* === Effets doux === */
+li, .points, a[href*="book"] {
+    transition: all 0.3s ease;
+}
+
+/* === Responsive === */
+@media (max-width: 768px) {
+    body {
+        padding: 0 10px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .points {
+        font-size: 1rem;
+        margin: 15px;
+    }
+
+    li {
+        padding: 10px 12px;
+    }
+
+    a[href*="book"] {
+        font-size: 0.9rem;
+    }
+}
+
     </style>
 
 </head>
