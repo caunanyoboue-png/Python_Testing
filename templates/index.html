@@ -118,25 +118,31 @@
 </head>
 
 <body>
-    <div class="container">
-        <section class="points">
-    <h2>Récapitulatif des points</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Club</th>
-                <th>Points</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for club in clubs %}
-            <tr>
-                <td>{{ club['name'] }}</td>
-                <td>{{ club['points'] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+   <h1>Récapitulatif des points par club</h1>
+<table id="clubs-table" border="1">
+    <thead><tr><th>Club</th><th>Email</th><th>Points</th></tr></thead>
+    <tbody></tbody>
+    <tfoot><tr><td>Total</td><td></td><td id="total"></td></tr></tfoot>
+</table>
+
+<script>
+fetch('clubs.json')
+    .then(r => r.json())
+    .then(data => {
+        const tbody = document.querySelector('#clubs-table tbody');
+        let total = 0;
+        data.clubs.forEach(c => {
+            const pts = Number(c.points) || 0;
+            total += pts;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td>${c.name}</td><td>${c.email}</td><td>${pts}</td>`;
+            tbody.appendChild(tr);
+        });
+        document.getElementById('total').textContent = total;
+    })
+    .catch(err => console.error(err));
+</script>
+
 </section>
         <h1>Welcome to the GUDLFT Registration Portal!</h1>
         <p>Please enter your secretary email to continue:</p>
