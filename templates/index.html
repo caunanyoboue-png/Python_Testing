@@ -3,15 +3,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GUDLFT Registration</title>
-     <link rel="stylesheet" href="{{ url_for('static', filename='welcome.css') }}">
+
+    <style>
+        /* === Style global === */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #eef2ff, #f9fafb);
+            margin: 0;
+            padding: 0;
+            color: #2c3e50;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        /* === Conteneur principal === */
+        .container {
+            background: #ffffff;
+            padding: 40px 50px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 420px;
+            width: 90%;
+            transition: all 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        /* === Titre principal === */
+        h1 {
+            color: #1d3557;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #457b9d;
+            font-size: 1rem;
+            margin-bottom: 25px;
+        }
+
+        /* === Formulaire === */
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            font-weight: 600;
+            color: #264653;
+            margin-bottom: 8px;
+        }
+
+        input[type="email"] {
+            padding: 10px 14px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 260px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #457b9d;
+            box-shadow: 0 0 0 3px rgba(69, 123, 157, 0.2);
+        }
+
+        /* === Bouton === */
+        button {
+            margin-top: 20px;
+            background: linear-gradient(90deg, #457b9d, #1d3557);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(69, 123, 157, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: linear-gradient(90deg, #1d3557, #264653);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 6px 16px rgba(29, 53, 87, 0.4);
+        }
+
+        /* === Responsive === */
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            button {
+                width: 100%;
+                font-size: 0.95rem;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Welcome to the GUDLFT Registration Portal!</h1>
-    Please enter your secretary email to continue:
-    <form action="showSummary" method="post">
-        <label for="email">Email:</label>
-        <input type="email" name="email" id=""/>
-        <button type="submit">Enter</button>
-    </form>
+    <div class="container">
+        <h1>Welcome to the GUDLFT Registration Portal!</h1>
+        <p>Please enter your secretary email to continue:</p>
+
+        <form action="showSummary" method="post">
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" placeholder="ex: club@example.com" required />
+            <button type="submit">Enter</button>
+        </form>
+    </div>
 </body>
 </html>

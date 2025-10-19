@@ -26,11 +26,17 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/showSummary', methods=['POST'])
+@app.route('/showSummary', methods=['GET', 'POST'])
 def showSummary():
-    club = [club for club in clubs if club['email'] == request.form['email']][0]
-    # transmettre aussi la liste complète des clubs pour afficher le tableau des points
+    if request.method == 'POST':
+        email = request.form['email']
+        club = [club for club in clubs if club['email'] == email][0]
+    else:
+        # Si l'utilisateur arrive via "Back to competitions" (GET), on peut garder le dernier club connecté
+        club = clubs[0]  # ⚠️ Tu peux plus tard remplacer par la session de l'utilisateur connecté
+
     return render_template('welcome.html', club=club, competitions=competitions, clubs=clubs)
+
 
 
 @app.route('/book/<competition>/<club>')
@@ -96,7 +102,6 @@ def purchasePlaces():
 
     flash('Réservation réussie !')
     return render_template('welcome.html', club=club, competitions=competitions, clubs=clubs)
-
 
 # route pour afficher la page récapitulative des points (optionnel)
 @app.route('/points')
