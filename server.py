@@ -56,7 +56,6 @@ def purchasePlaces():
     competition = next((c for c in competitions if c['name'] == request.form.get('competition')), None)
     club = next((c for c in clubs if c['name'] == request.form.get('club')), None)
 
-    # validation et conversion
     try:
         placesRequired = int(request.form.get('places', 0))
     except (ValueError, TypeError):
@@ -71,34 +70,31 @@ def purchasePlaces():
         flash("Le nombre de places doit être positif.")
         return render_template('welcome.html', club=club, competitions=competitions, clubs=clubs)
 
-    # Limite maximale : pas plus de 12 places par club (par réservation)
     if placesRequired > 12:
         flash("Vous ne pouvez pas réserver plus de 12 places par club.")
         return render_template('welcome.html', club=club, competitions=competitions, clubs=clubs)
 
-    # Vérifier que le club a assez de points
-    try:
-        club_points = int(club.get('points', 0))
-    except (ValueError, TypeError):
-        club_points = 0
+    club_points = int(club.get('points', 0))
+    available_places = int(competition.get('numberOfPlaces', 0))
 
     if placesRequired > club_points:
         flash("Impossible de réserver plus de places que vos points disponibles.")
         return render_template('welcome.html', club=club, competitions=competitions, clubs=clubs)
 
-    # Vérifier qu'il y a assez de places dans la compétition
-    try:
-        available_places = int(competition.get('numberOfPlaces', 0))
-    except (ValueError, TypeError):
-        available_places = 0
-
     if placesRequired > available_places:
         flash("Pas assez de places disponibles dans la compétition.")
         return render_template('welcome.html', club=club, competitions=competitions, clubs=clubs)
 
-    # effectuer la réservation : décrémenter points et places
+    # --- MISE À JOUR DES DONNÉES ---
     club['points'] = club_points - placesRequired
     competition['numberOfPlaces'] = available_places - placesRequired
+
+    # --- SAUVEGARDE dans clubs.json ---
+    try:
+        with open('clubs.json', 'w') as f:
+            json.dump({'clubs': clubs}, f, indent=4)
+    except Exception as e:
+        flash(f"Erreur de sauvegarde : {e}")
 
     flash('Réservation réussie !')
     return render_template('welcome.html', club=club, competitions=competitions, clubs=clubs)
@@ -138,8 +134,20 @@ def points():
     </html>
     """
     return render_template_string(html)
+@app.route('/clubs_data')
+def clubs_data():
+    with open('clubs.json') as f:
+        data = json.load(f)
+    return data
 
 
 @app.route('/logout')
 def logout():
     return redirect(url_for('index'))
+
+@app.route('/clubs_data')
+def clubs_data():
+    with open('clubs.json') as f:
+        data = json.load(f)
+    return data
+

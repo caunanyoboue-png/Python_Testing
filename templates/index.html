@@ -10,13 +10,12 @@
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #eef2ff, #f9fafb);
             margin: 0;
-            padding: 0;
+            padding: 40px 0;
             color: #2c3e50;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
             flex-direction: column;
+            align-items: center;
         }
 
         /* === Conteneur principal === */
@@ -29,6 +28,7 @@
             max-width: 420px;
             width: 90%;
             transition: all 0.3s ease;
+            margin-bottom: 40px;
         }
 
         .container:hover {
@@ -36,7 +36,6 @@
             box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
         }
 
-        /* === Titre principal === */
         h1 {
             color: #1d3557;
             font-size: 1.8rem;
@@ -49,7 +48,6 @@
             margin-bottom: 25px;
         }
 
-        /* === Formulaire === */
         form {
             display: flex;
             flex-direction: column;
@@ -78,7 +76,6 @@
             box-shadow: 0 0 0 3px rgba(69, 123, 157, 0.2);
         }
 
-        /* === Bouton === */
         button {
             margin-top: 20px;
             background: linear-gradient(90deg, #457b9d, #1d3557);
@@ -99,51 +96,41 @@
             box-shadow: 0 6px 16px rgba(29, 53, 87, 0.4);
         }
 
-        /* === Responsive === */
-        @media (max-width: 600px) {
-            .container {
-                padding: 30px 20px;
-            }
+        /* === Tableau === */
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
 
-            h1 {
-                font-size: 1.5rem;
-            }
+        th, td {
+            padding: 12px 16px;
+            text-align: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
 
-            button {
-                width: 100%;
-                font-size: 0.95rem;
-            }
+        th {
+            background-color: #1d3557;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f5f9;
+        }
+
+        tfoot td {
+            font-weight: bold;
+            background-color: #f3f4f6;
         }
     </style>
 </head>
 
 <body>
-   <h1>Récapitulatif des points par club</h1>
-<table id="clubs-table" border="1">
-    <thead><tr><th>Club</th><th>Email</th><th>Points</th></tr></thead>
-    <tbody></tbody>
-    <tfoot><tr><td>Total</td><td></td><td id="total"></td></tr></tfoot>
-</table>
 
-<script>
-fetch('clubs.json')
-    .then(r => r.json())
-    .then(data => {
-        const tbody = document.querySelector('#clubs-table tbody');
-        let total = 0;
-        data.clubs.forEach(c => {
-            const pts = Number(c.points) || 0;
-            total += pts;
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td>${c.name}</td><td>${c.email}</td><td>${pts}</td>`;
-            tbody.appendChild(tr);
-        });
-        document.getElementById('total').textContent = total;
-    })
-    .catch(err => console.error(err));
-</script>
-
-</section>
+    <div class="container">
         <h1>Welcome to the GUDLFT Registration Portal!</h1>
         <p>Please enter your secretary email to continue:</p>
 
@@ -153,6 +140,48 @@ fetch('clubs.json')
             <button type="submit">Enter</button>
         </form>
     </div>
+
+    <h1>Récapitulatif des points par club</h1>
+    <table id="clubs-table">
+        <thead>
+            <tr><th>Club</th><th>Email</th><th>Points</th></tr>
+        </thead>
+        <tbody></tbody>
+        <tfoot>
+            <tr><td>Total</td><td></td><td id="total"></td></tr>
+        </tfoot>
+    </table>
+
+    <script>
+    async function loadClubs() {
+        try {
+            const response = await fetch('/clubs_data');
+            const data = await response.json();
+
+            const tbody = document.querySelector('#clubs-table tbody');
+            tbody.innerHTML = ''; // vider avant de recharger
+
+            let total = 0;
+            data.clubs.forEach(c => {
+                const pts = Number(c.points) || 0;
+                total += pts;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${c.name}</td><td>${c.email}</td><td>${pts}</td>`;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('total').textContent = total;
+        } catch (err) {
+            console.error('Erreur de chargement des clubs :', err);
+        }
+    }
+
+    // Chargement initial
+    loadClubs();
+
+    // Rafraîchissement automatique toutes les 10 secondes
+    setInterval(loadClubs, 10000);
+</script>
+
 </body>
 </html>
-
