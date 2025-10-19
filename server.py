@@ -1,5 +1,5 @@
 import json
-from flask import Flask, render_template, request, redirect, flash, url_for
+from flask import Flask, render_template, request, redirect, flash, url_for, render_template_string
 
 
 def loadClubs():
@@ -103,10 +103,41 @@ def purchasePlaces():
     flash('Réservation réussie !')
     return render_template('welcome.html', club=club, competitions=competitions, clubs=clubs)
 
-# route pour afficher la page récapitulative des points (optionnel)
+# route pour afficher la page récapitulative des points
 @app.route('/points')
 def points():
-    return render_template('points.html', clubs=clubs)
+    # Génère un tableau HTML simple récapitulant les points de chaque club
+    table_rows = "".join(
+        f"<tr><td>{club.get('name')}</td><td style='text-align:right'>{club.get('points')}</td></tr>"
+        for club in clubs
+    )
+    html = f"""
+    <!doctype html>
+    <html lang="fr">
+      <head>
+        <meta charset="utf-8">
+        <title>Récapitulatif des points</title>
+        <style>
+          table {{ border-collapse: collapse; width: 50%; margin: 20px 0; }}
+          th, td {{ border: 1px solid #ccc; padding: 8px; }}
+          th {{ background: #f0f0f0; text-align: left; }}
+        </style>
+      </head>
+      <body>
+        <h1>Récapitulatif des points par club</h1>
+        <table>
+          <thead>
+            <tr><th>Club</th><th>Points</th></tr>
+          </thead>
+          <tbody>
+            {table_rows}
+          </tbody>
+        </table>
+        <p><a href="{url_for('index')}">Retour à l'accueil</a></p>
+      </body>
+    </html>
+    """
+    return render_template_string(html)
 
 
 @app.route('/logout')
