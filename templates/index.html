@@ -118,6 +118,26 @@
 </head>
 
 <body>
+    <!-- Section récapitulatif des points -->
+<section class="points">
+    <h2>Récapitulatif des points</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Club</th>
+                <th>Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for club in clubs %}
+            <tr>
+                <td>{{ club['name'] }}</td>
+                <td>{{ club['points'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
     <div class="container">
         <h1>Welcome to the GUDLFT Registration Portal!</h1>
         <p>Please enter your secretary email to continue:</p>
@@ -130,3 +150,4 @@
     </div>
 </body>
 </html>
+
